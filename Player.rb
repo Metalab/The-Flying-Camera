@@ -82,21 +82,19 @@ class Player
       score_history[hit.object_id] ||= []
       score_history[hit.object_id].unshift(1)
       self.score += score_history[hit.object_id].inject {|sum, i| sum + i}
-      puts score
     end
-    puts ""
     score_history.map{|k, history| history.unshift(0); }
-#    puts score_history.inspect
   end
 
   def check(enemies)
     enemies.collect do |enemy|
       # nur im Rückschritt liegt die Zukunft
-      b = self.x + enemy.x
-      a = self.y + enemy.y
+      a = self.x - enemy.x
+      b = self.y - enemy.y
       gamma = Math.atan2(b,a)
-      # FIXME only scoring planes above?
-      gamma = ( -1 *((gamma / Math::PI * 180)) + 90) % 360
+
+      gamma = (gamma / Math::PI * 180) + 180
+      
       n = camera_angle[1][0]
       m = camera_angle[1][1]
       if m < n && gamma > m && gamma < n
