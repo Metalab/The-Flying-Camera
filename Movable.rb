@@ -23,11 +23,11 @@ module Movable
     self.last_turn = self.turns_sum.abs > 1 ? val : 0
     self.orientation = (self.orientation + self.turns_sum) % 360
   end
-  
+
   def speedUp(val)
     self.speed = [[self.speed + val, MAX_SPEED].min, MIN_SPEED].max
   end
-  
+
   def radians
     (self.orientation * Math::PI / 180) || 0
   end
