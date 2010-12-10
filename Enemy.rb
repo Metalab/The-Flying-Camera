@@ -17,10 +17,10 @@ class Enemy
     self.team = team
     self.x = rand * 2 - 1
     self.y = rand * 2 - 1
-    self.orientation = 0
+    self.orientation = rand(360)
     self.speed = 2
     self.turns = []
-    self.position (0,0,0)
+    self.position (rand,rand,0)
   end
 
   def redraw(tick)
