@@ -30,11 +30,11 @@ class Player
 
     glPopMatrix
   end
-  
+
   def draw_camera
     c = self.camera ? 1 : -1
     glPushMatrix
-    puts c
+
     glBegin(GL_LINE_STRIP)
       glColor3f(0,0,0)
       glVertex2f(0.17, c*0.5)
