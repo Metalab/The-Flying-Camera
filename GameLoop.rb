@@ -28,6 +28,7 @@ class GameLoop
             target:self, selector:"timer_fired:",
             userInfo:nil, repeats:true)
   end
+
   def timer_fired(timer)
     tick(1/60.0)
     view.setNeedsDisplay true
