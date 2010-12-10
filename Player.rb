@@ -11,19 +11,22 @@
 class Player
   include Placable
   include Movable
-  attr_accessor :camera
+  attr_accessor :camera,
+    :score, :score_history
 
   def initialize
     self.orientation = 0
     self.speed = 2
     self.turns = []
     self.position (0,0,0)
+    self.score = 0
+    self.score_history = {}
   end
 
   def redraw(tick)
     glPushMatrix
-      place
       glColor3f(0.7,0.7,0.7)
+      place
       move
       Plane.draw
       draw_camera
@@ -60,5 +63,18 @@ class Player
       when 99 # c
         self.camera = !self.camera
     end
+  end
+
+  # count planes in view
+  def make_picture(planes)
+    score_history.map{|k, history| history.shift if history.size > 4 }
+
+    # TODO only planes in view
+    planes.each do |hit|
+      score_history[hit.object_id] ||= []
+      score_history[hit.object_id] << 1
+      self.score += score_history[hit.object_id].inject {|sum, i| sum + i}
+    end
+    score_history.map{|history| history.unshift(0) }
   end
 end

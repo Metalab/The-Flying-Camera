@@ -38,5 +38,6 @@ class GameLoop
     scene.redraw(seconds)
     player.redraw(seconds)
     elements.map{|e| e.redraw(seconds)}
+    player.make_picture(elements)
   end
 end
