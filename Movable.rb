@@ -17,6 +17,7 @@ module Movable
     self.turns = self.turns[0..(MAX_TURN*3)]
     return (self.turns||[]).inject {|sum, i| sum + i}
   end
+
   def turn(val)
     self.turns.unshift(val)
     self.last_turn = self.turns_sum.abs > 1 ? val : 0
