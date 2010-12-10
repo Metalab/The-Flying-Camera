@@ -45,15 +45,15 @@ class Enemy
     when 'Kaiserliche Fliegertruppe'
       iron_cross(-0.005,  0.05, 0)
       iron_cross(-0.005, -0.05, 0)
-    when 'Royal Air Force'
+    when 'Royal Flying Corps'
       raf(-0.005,  0.05, 0)
       raf(-0.005, -0.05, 0)
     end
   end
   def iron_cross(x,y,z)
     glPushMatrix
-    glColor3f(0, 0, 0)
     glTranslatef(x, y, z)
+    glColor3f(0, 0, 0)
     s = 0.01
     glBegin(GL_QUADS)
       glVertex3f( s,-s/3.5, 0.0); 
@@ -80,25 +80,20 @@ class Enemy
     glColor3f(1, 1, 1)
     circle(0.006)
     glColor3f(0,	0.13,	0.48)
-    circle(0.008)
+    circle(0.009)
     glPopMatrix
   end
 
-  def circle(radius, segments = 15)
-    glBegin(GL_TRIANGLES)
-    glEnable(GL_BLEND);
-    x2 = y2 = nil
+  def circle(radius, segments = 20)
+    glBegin(GL_TRIANGLE_FAN)
+    glVertex2f(0, 0)
     (segments+1).times do |i|
       # current angle
       theta = 2.0 * Math::PI * i / segments;
       x = radius * Math.cos(theta);
       y = radius * Math.sin(theta);
-      if x2 && y2
-        glVertex2f(0, 0)
-        glVertex2f(x, y)
-        glVertex2f(x2, y2)
-      end
-      x2,y2 = x,y
+      glVertex2f(x, y)
+
     end
     glEnd
   end

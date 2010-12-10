@@ -15,7 +15,7 @@ class GameLoop
     self.scene = Scene.new
     self.teams = [
       Team.new('Kaiserliche Fliegertruppe', [0.8, 0.8, 0.8], 2),
-      Team.new('Royal Air Force', [0.6, 0.62, 0.6], 2)
+      Team.new('Royal Flying Corps', [0.6, 0.62, 0.6], 2)
     ]
     self.elements ||= self.teams.collect(&:planes).flatten
 
