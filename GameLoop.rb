@@ -37,7 +37,18 @@ class GameLoop
   def tick(seconds)
     return if self.stop
     scene.redraw(seconds)
+
     player.redraw(seconds)
-    elements.map{|e| e.redraw(seconds)}
+
+    elements.map do |e|
+      check(e, player.camera_angle)
+      e.redraw(seconds)
+    end
+  end
+
+  def check(enemy, camera_angle)
+    puts "ENEMY-X #{enemy.x}"
+    puts "ENEMY-Y #{enemy.y}"
+    puts "ANGLE #{camera_angle[1]}"
   end
 end
