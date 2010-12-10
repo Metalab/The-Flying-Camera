@@ -11,13 +11,18 @@
 class Player
   include Placable
   include Movable
-  attr_accessor :camera
+  attr_accessor :camera, :camera_angle
 
   def initialize
     self.orientation = 0
     self.speed = 2
     self.turns = []
     self.position (0,0,0)
+
+    # 90 oeffnungswinkel der kamera
+    # 315 orientation erste grenze
+    # 225 orientation zweite grenze
+    self.camera_angle = [90, [315, 225]]
   end
 
   def redraw(tick)
@@ -32,6 +37,9 @@ class Player
   end
 
   def draw_camera
+    self.camera_angle[1][0] = (self.camera_orientation + self.camera_angle[0] / 2) % 360
+    self.camera_angle[1][1] = (self.camera_orientation - self.camera_angle[0] / 2) % 360
+
     c = self.camera ? 1 : -1
     glPushMatrix
 
