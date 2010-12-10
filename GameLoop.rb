@@ -42,10 +42,4 @@ class GameLoop
     elements.map{|e| e.redraw(seconds)}
     player.make_picture(elements)
   end
-
-  def check(enemy, camera_angle)
-    puts "ENEMY-X #{enemy.x}"
-    puts "ENEMY-Y #{enemy.y}"
-    puts "ANGLE #{camera_angle[1]}"
-  end
 end

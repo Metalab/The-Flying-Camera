@@ -20,7 +20,7 @@ class Enemy
     self.orientation = rand(360)
     self.speed = 2
     self.turns = []
-    self.position (rand,rand,0)
+
   end
 
   def redraw(tick)

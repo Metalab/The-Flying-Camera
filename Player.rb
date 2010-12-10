@@ -95,6 +95,7 @@ class Player
       b = self.x + enemy.x
       a = self.y + enemy.y
       gamma = Math.atan2(b,a)
+      # FIXME only scoring planes above?
       gamma = ( -1 *((gamma / Math::PI * 180)) + 90) % 360
       n = camera_angle[1][0]
       m = camera_angle[1][1]
