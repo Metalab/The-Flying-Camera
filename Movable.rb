@@ -31,6 +31,10 @@ module Movable
     (self.orientation * Math::PI / 180) || 0
   end
 
+  def camera_orientation
+    (orientation - 90) % 360
+  end
+
   def move(turn = nil)
     # First of all rotate
     glRotatef(self.orientation, 0, 0, 1)
