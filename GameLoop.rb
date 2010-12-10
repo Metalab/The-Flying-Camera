@@ -28,6 +28,7 @@ class GameLoop
             target:self, selector:"timer_fired:",
             userInfo:nil, repeats:true)
   end
+
   def timer_fired(timer)
     tick(1/60.0)
     view.setNeedsDisplay true
@@ -36,8 +37,15 @@ class GameLoop
   def tick(seconds)
     return if self.stop
     scene.redraw(seconds)
+
     player.redraw(seconds)
     elements.map{|e| e.redraw(seconds)}
     player.make_picture(elements)
+  end
+
+  def check(enemy, camera_angle)
+    puts "ENEMY-X #{enemy.x}"
+    puts "ENEMY-Y #{enemy.y}"
+    puts "ANGLE #{camera_angle[1]}"
   end
 end

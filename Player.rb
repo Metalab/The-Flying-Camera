@@ -11,7 +11,7 @@
 class Player
   include Placable
   include Movable
-  attr_accessor :camera,
+  attr_accessor :camera, :camera_angle,
     :score, :score_history
 
   def initialize
@@ -21,6 +21,11 @@ class Player
     self.position (0,0,0)
     self.score = 0
     self.score_history = {}
+
+    # 90 oeffnungswinkel der kamera
+    # 315 orientation erste grenze
+    # 225 orientation zweite grenze
+    self.camera_angle = [40, [290, 250]]
   end
 
   def redraw(tick)
@@ -33,11 +38,14 @@ class Player
 
     glPopMatrix
   end
-  
+
   def draw_camera
+    self.camera_angle[1][0] = (self.camera_orientation + self.camera_angle[0] / 2) % 360
+    self.camera_angle[1][1] = (self.camera_orientation - self.camera_angle[0] / 2) % 360
+
     c = self.camera ? 1 : -1
     glPushMatrix
-    puts c
+
     glBegin(GL_LINE_STRIP)
       glColor3f(0,0,0)
       glVertex2f(0.17, c*0.5)
@@ -67,14 +75,36 @@ class Player
 
   # count planes in view
   def make_picture(planes)
-    score_history.map{|k, history| history.shift if history.size > 4 }
+    score_history.map{|k, history| score_history[k] = history[0..10] }
 
     # TODO only planes in view
-    planes.each do |hit|
+    check(planes).each do |hit|
       score_history[hit.object_id] ||= []
-      score_history[hit.object_id] << 1
+      score_history[hit.object_id].unshift(1)
       self.score += score_history[hit.object_id].inject {|sum, i| sum + i}
+      puts score
     end
-    score_history.map{|history| history.unshift(0) }
+    puts ""
+    score_history.map{|k, history| history.unshift(0); }
+#    puts score_history.inspect
+  end
+
+  def check(enemies)
+    enemies.collect do |enemy|
+      # nur im Rückschritt liegt die Zukunft
+      b = self.x + enemy.x
+      a = self.y + enemy.y
+      gamma = Math.atan2(b,a)
+      gamma = ( -1 *((gamma / Math::PI * 180)) + 90) % 360
+      n = camera_angle[1][0]
+      m = camera_angle[1][1]
+      if m < n && gamma > m && gamma < n
+        enemy
+      elsif m > n && (gamma > m || gamma < n)
+        enemy
+      else
+        nil
+      end
+    end.compact
   end
 end

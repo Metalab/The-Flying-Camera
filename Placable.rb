@@ -14,11 +14,11 @@ module Placable
     self.y = y
     self.z = z
   end
-  
+
   def orientation
     @orientation ||= 0
   end
-  
+
   def place
     # Endless screen
     self.x = -1 if x > 1
