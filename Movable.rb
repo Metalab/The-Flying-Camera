@@ -28,8 +28,8 @@ module Movable
     self.speed = [[self.speed + val, MAX_SPEED].min, MIN_SPEED].max
   end
 
-  def radians
-    (self.orientation * Math::PI / 180) || 0
+  def radians(angle)
+    (angle * Math::PI / 180) || 0
   end
 
   def camera_orientation
@@ -44,7 +44,7 @@ module Movable
     self.turn(turn || self.last_turn || 0)
     self.turns.shift if turn.nil?
     self.turns.unshift(0)
-    self.x += Math.cos(self.radians) * self.speed * SPEED_FACTOR
-    self.y += Math.sin(self.radians) * self.speed * SPEED_FACTOR
+    self.x += Math.cos(self.radians(self.orientation)) * self.speed * SPEED_FACTOR
+    self.y += Math.sin(self.radians(self.orientation)) * self.speed * SPEED_FACTOR
   end
 end

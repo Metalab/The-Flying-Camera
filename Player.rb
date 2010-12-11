@@ -7,11 +7,14 @@
 #
 #require 'placable'
 #require 'movable'
+require 'visibility'
 
 class Player
   include Placable
   include Movable
-  attr_accessor :camera, :camera_angle,
+  include Visibility
+
+  attr_accessor :view_angle,
     :score, :score_history
 
   def initialize
@@ -22,10 +25,8 @@ class Player
     self.score = 0
     self.score_history = {}
 
-    # 90 oeffnungswinkel der kamera
-    # 315 orientation erste grenze
-    # 225 orientation zweite grenze
-    self.camera_angle = [40, [290, 250]]
+    self.view_width = 55
+    self.view_angle = [270 - view_width / 2, 270 + view_width / 2]
   end
 
   def redraw(tick)
@@ -40,23 +41,32 @@ class Player
   end
 
   def draw_camera
-    self.camera_angle[1][0] = (self.camera_orientation + self.camera_angle[0] / 2) % 360
-    self.camera_angle[1][1] = (self.camera_orientation - self.camera_angle[0] / 2) % 360
-
-    c = self.camera ? 1 : -1
     glPushMatrix
 
     glBegin(GL_LINE_STRIP)
       glColor3f(0,0,0)
-      glVertex2f(0.17, c*0.5)
+      puts [radians(view_angle[0]), radians(view_angle[1])].inspect
+      c_x = Math.cos(radians(view_angle[0])) / 5.0
+      c_y = Math.cos(radians(view_angle[1])) / 5.0
+      puts [c_x, c_y].inspect
+      glVertex2f(c_x, c_y)
       glColor3f(1,1,1)
       glVertex2f(-0.03, 0)
       glColor3f(0,0,0)
-      glVertex2f(-0.20, c*0.5)
+      glVertex2f(-c_x, c_y)
     glEnd
     glPopMatrix
     glFlush
   end
+
+  def turn_with_camera(direction)
+    orientation_before = self.orientation
+    self.turn_without_camera(direction)
+    self.view_angle[0] += orientation_before - self.orientation
+    self.view_angle[1] += orientation_before - self.orientation
+  end
+  alias_method :turn_without_camera, :turn
+  alias_method :turn, :turn_with_camera
 
   def keyDown(key)
     case key
@@ -69,7 +79,7 @@ class Player
       when 131 # right
         turn(-1)
       when 99 # c
-        self.camera = !self.camera
+        self.view_angle.collect!{|a| a + 180 % 380 }
     end
   end
 
@@ -77,33 +87,14 @@ class Player
   def make_picture(planes)
     score_history.map{|k, history| score_history[k] = history[0..10] }
 
-    # TODO only planes in view
-    check(planes).each do |hit|
+    # TODO set planes that are not in view to []
+    objects_in_view(planes).each do |hit|
       score_history[hit.object_id] ||= []
       score_history[hit.object_id].unshift(1)
       self.score += score_history[hit.object_id].inject {|sum, i| sum + i}
     end
     score_history.map{|k, history| history.unshift(0); }
   end
-
-  def check(enemies)
-    enemies.collect do |enemy|
-      # nur im Rückschritt liegt die Zukunft
-      a = self.x - enemy.x
-      b = self.y - enemy.y
-      gamma = Math.atan2(b,a)
-
-      gamma = (gamma / Math::PI * 180) + 180
-      
-      n = camera_angle[1][0]
-      m = camera_angle[1][1]
-      if m < n && gamma > m && gamma < n
-        enemy
-      elsif m > n && (gamma > m || gamma < n)
-        enemy
-      else
-        nil
-      end
-    end.compact
-  end
+  
+  
 end
