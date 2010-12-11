@@ -21,7 +21,9 @@ module Movable
   def turn(val)
     self.turns.unshift(val)
     self.last_turn = self.turns_sum.abs > 1 ? val : 0
+    old_orientation = self.orientation
     self.orientation = (self.orientation + self.turns_sum) % 360
+    return self.orientation - old_orientation
   end
 
   def speedUp(val)

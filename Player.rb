@@ -25,8 +25,8 @@ class Player
     self.score = 0
     self.score_history = {}
 
-    self.view_width = 55
-    self.view_angle = [270 - view_width / 2, 270 + view_width / 2]
+    self.view_width = 70
+    self.view_angle = [90 + view_width / 2, 90 - view_width / 2]
   end
 
   def redraw(tick)
@@ -45,25 +45,24 @@ class Player
 
     glBegin(GL_LINE_STRIP)
       glColor3f(0,0,0)
-      puts [radians(view_angle[0]), radians(view_angle[1])].inspect
-      c_x = Math.cos(radians(view_angle[0])) / 5.0
-      c_y = Math.cos(radians(view_angle[1])) / 5.0
-      puts [c_x, c_y].inspect
+      c_x = Math.cos(radians(self.orientation - view_angle[0] + 180)) / 3.0
+      c_y = Math.sin(radians(self.orientation - view_angle[0] + 180)) / 3.0
       glVertex2f(c_x, c_y)
       glColor3f(1,1,1)
       glVertex2f(-0.03, 0)
       glColor3f(0,0,0)
-      glVertex2f(-c_x, c_y)
+      c_x = Math.cos(radians(self.orientation - view_angle[1] + 180)) / 3.0
+      c_y = Math.sin(radians(self.orientation - view_angle[1] + 180)) / 3.0
+      glVertex2f(c_x, c_y)
     glEnd
     glPopMatrix
     glFlush
   end
 
   def turn_with_camera(direction)
-    orientation_before = self.orientation
-    self.turn_without_camera(direction)
-    self.view_angle[0] += orientation_before - self.orientation
-    self.view_angle[1] += orientation_before - self.orientation
+    difference = self.turn_without_camera(direction)
+    self.view_angle[0] = (self.view_angle[0] + difference) % 360
+    self.view_angle[1] = (self.view_angle[1] + difference) % 360
   end
   alias_method :turn_without_camera, :turn
   alias_method :turn, :turn_with_camera
@@ -85,7 +84,7 @@ class Player
 
   # count planes in view
   def make_picture(planes)
-    score_history.map{|k, history| score_history[k] = history[0..10] }
+    score_history.map{|k, history| score_history[k] = history[0..20] }
 
     # TODO set planes that are not in view to []
     objects_in_view(planes).each do |hit|
@@ -94,6 +93,7 @@ class Player
       self.score += score_history[hit.object_id].inject {|sum, i| sum + i}
     end
     score_history.map{|k, history| history.unshift(0); }
+    puts score
   end
   
   
