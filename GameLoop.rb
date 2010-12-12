@@ -42,7 +42,10 @@ class GameLoop
     scene.redraw(seconds)
 
     player.redraw(seconds)
-    elements.map{|e| e.redraw(seconds)}
+    elements.map do |e|
+      e.find_target(elements.reject {|e1| e1.team == e.team})
+      e.redraw(seconds)
+    end
     player.make_picture(elements)
   end
 

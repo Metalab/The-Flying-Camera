@@ -7,11 +7,15 @@
 #
 require 'placable'
 require 'movable'
+require 'visibility'
+
 class Enemy
   include Placable
   include Movable
+  include Visibility
+
   
-  attr_accessor :team
+  attr_accessor :team, :view_angle
 
   def initialize(team)
     self.team = team
@@ -20,11 +24,11 @@ class Enemy
     self.orientation = rand(360)
     self.speed = 2
     self.turns = []
-
+    self.view_width = 90
+    self.view_angle = [view_width / 2, view_width / 2]
   end
 
   def redraw(tick)
-    self.randomize
     glPushMatrix
     place
     move
@@ -93,13 +97,18 @@ class Enemy
       x = radius * Math.cos(theta);
       y = radius * Math.sin(theta);
       glVertex2f(x, y)
-
     end
     glEnd
   end
-  
-  def randomize
+
+  def find_target(enemies)
     self.speedUp(rand * 2 - 1)
-    self.turn(rand(self.turns_sum||1) * (rand - 0.5))
+    enemy_to_follow = self.objects_in_view(enemies).first
+    if enemy_to_follow.nil?
+      self.turn(rand(self.turns_sum||1) * (rand -0.5))
+    else
+      self.turn(0)
+      puts "follow: #{enemy_to_follow.object_id}"
+    end
   end
 end
