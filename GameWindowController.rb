@@ -19,6 +19,7 @@ class GameWindowController < NSWindowController
     key = event.characters[0].bytes.to_a[-1]
     game_loop.stop = !game_loop.stop if key == 112
     if key == 32
+      game_loop.stop = true
       if fullscreen.active
         fullscreen.active = false
         fullscreen.exit_fullscreen
@@ -28,6 +29,7 @@ class GameWindowController < NSWindowController
         fullscreen.go_fullscreen
         fullscreen.active true
       end
+      game_loop.stop = false
     end
     game_loop.player.keyDown(key)
   end

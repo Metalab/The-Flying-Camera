@@ -55,15 +55,17 @@ class GameLoop
   
   
 	def set_viewport_rectangle(bounds)
-return
+  return
+  puts bounds.inspect
+
 		glViewport(bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height)
 
 		glMatrixMode(GL_PROJECTION)
 		glLoadIdentity
 		gluPerspective(30, bounds.size.width / bounds.size.height, 1.0, 1000.0)
 
-		glMatrixMode(GL_MODELVIEW)
-		glLoadIdentity
+#		glMatrixMode(GL_MODELVIEW)
+#		glLoadIdentity
 
 	end
 end
