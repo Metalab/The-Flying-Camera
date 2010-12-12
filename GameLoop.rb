@@ -7,7 +7,8 @@
 #
 
 class GameLoop
-  attr_accessor :view, :timer, :player, :elements, :scene, :teams, :stop
+  attr_accessor :view
+  attr_accessor :timer, :player, :elements, :scene, :teams, :stop, :shots
 
   def initialize(view)
     self.view = view
@@ -63,5 +64,9 @@ class GameLoop
 		glMatrixMode(GL_PROJECTION)
 		glLoadIdentity
 		gluPerspective(30, bounds.size.width / bounds.size.height, 1.0, 1000.0)
+
+#		glMatrixMode(GL_MODELVIEW)
+#		glLoadIdentity
+
 	end
 end
