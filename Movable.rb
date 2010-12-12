@@ -43,9 +43,11 @@ module Movable
     glRotatef(self.orientation, 0, 0, 1)
 
     # Move x and y coords
-    self.turn(turn || self.last_turn || 0)
-    self.turns.shift if turn.nil?
-    self.turns.unshift(0)
+    if self.turns
+      self.turn(turn || self.last_turn || 0)
+      self.turns.shift if turn.nil?
+      self.turns.unshift(0)
+    end
     self.x += Math.cos(self.radians(self.orientation)) * self.speed * SPEED_FACTOR
     self.y += Math.sin(self.radians(self.orientation)) * self.speed * SPEED_FACTOR
   end

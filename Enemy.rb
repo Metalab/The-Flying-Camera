@@ -15,7 +15,7 @@ class Enemy
   include Visibility
 
   
-  attr_accessor :team, :view_angle
+  attr_accessor :team, :view_angle, :shots
 
   def initialize(team)
     self.team = team
@@ -24,6 +24,7 @@ class Enemy
     self.orientation = rand(360)
     self.speed = 2
     self.turns = []
+    self.shots = []
     self.view_width = 40
     self.view_angle = [self.orientation + view_width / 2.0, self.orientation - view_width / 2.0]
   end
@@ -35,8 +36,8 @@ class Enemy
     colour
     Plane.draw
     self.draw
-
     glPopMatrix
+    self.shots = self.shots.map(&:redraw).compact
   end
   
   def colour
@@ -103,11 +104,16 @@ class Enemy
 
   def find_target(enemies)
     self.speedUp(rand * 2 - 1)
+    # right
     enemy_to_follow = self.objects_in_view(enemies).first
     if enemy_to_follow.nil?
-      self.turn(rand(self.turns_sum||1) * (rand -0.5))
+      self.turn(rand(self.turns_sum||1) * (rand - 0.5))
     else
-    a = - [[(self.orientation - enemy_to_follow[1]) / self.view_width.to_f, 0.5].min, -0.5].max
+      if self.shots.size < 20
+        puts enemy_to_follow[1]
+        self.shots << Shot.new(self.x, self.y, (self.orientation - enemy_to_follow[1]) % 360)
+      end
+      a = - [[(self.orientation - enemy_to_follow[1]) / self.view_width.to_f, 0.5].min, -0.5].max
       self.turn(a)
     end
   end
