@@ -7,20 +7,25 @@
 #
 
 class Score
-  attr_accessor :score, :point_size, :x, :y, :z
+  attr_accessor :score, :point_size, :x, :y, :z, :binary
 
   def initialize(x,y,z)
     self.x = x
     self.y = y
     self.z = z
     self.score = 0
-    self.point_size = 0.02
+    self.point_size = 0.03
+    self.binary = false
   end
 
   def draw
-    (self.score / 128).to_s(2).split('').reverse.each_with_index do |p, i|
+    (self.binary ?
+          (self.score/16).to_s(2).split('').reverse :
+          self.score.to_s.split('').reverse)
+    .each_with_index do |p, i|
       glPushMatrix
-      p=="1" ? glColor3f(0.8,0.8,0.8) : glColor3f(0.2,0.2,0.2)
+      c = self.binary ? (p == "1" ? 0.8 : 0.2) : p.to_f/10.0
+      glColor3f(c, c, c)
       glTranslatef(self.x + i * point_size + point_size / 4, self.y, i*0.1)
 
       glBegin(GL_QUADS)

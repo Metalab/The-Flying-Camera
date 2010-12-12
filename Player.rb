@@ -79,21 +79,24 @@ class Player
         turn(-1)
       when 99 # c
         self.view_angle.collect!{|a| a + 180 % 380 }
+      when 115 # score
+        self.score.binary = !self.score.binary
     end
   end
 
   # count planes in view
   def make_picture(planes)
-    score_history.map{|k, history| score_history[k] = history[0..20] }
+    score_delta = 1
+    score_history.map{|k, history| score_history[k] = history[0..40] }
     # TODO set planes that are not in view to []
-    objects_in_view(planes).each do |hit|
+    planes_scored = objects_in_view(planes).each do |hit|
       score_history[hit.object_id] ||= []
       score_history[hit.object_id].unshift(1)
-      self.score + score_history[hit.object_id].inject {|sum, i| sum + i}
+      score_delta += score_history[hit.object_id].inject {|sum, i| sum + i}
     end
+    score_delta *= planes_scored.size
+    self.score + score_delta
     score_history.map{|k, history| history.unshift(0); }
-    puts score
   end
-  
   
 end
