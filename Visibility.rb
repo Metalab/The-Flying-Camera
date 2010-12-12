@@ -22,7 +22,6 @@ module Visibility
       gamma = Math.atan2(b,a)
 
       gamma = (gamma / Math::PI * 180) + 180
-      puts view_angle.inspect
       n = view_angle[0]
       m = view_angle[1]
       if m < n && gamma > m && gamma < n

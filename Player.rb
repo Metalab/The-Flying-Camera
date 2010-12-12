@@ -45,10 +45,8 @@ class Player
 
     glBegin(GL_LINE_STRIP)
       glColor3f(0,0,0)
-      puts [radians(view_angle[0]), radians(view_angle[1])].inspect
       c_x = Math.cos(radians(view_angle[0])) / 5.0
       c_y = Math.cos(radians(view_angle[1])) / 5.0
-      puts [c_x, c_y].inspect
       glVertex2f(c_x, c_y)
       glColor3f(1,1,1)
       glVertex2f(-0.03, 0)

@@ -5,10 +5,10 @@
 # Copyright 2010 ben. All rights reserved.
 
 class Fullscreen
-  attr_accessor	:controller, :fullscreen_context, :stay_in_fullscreen_mode, :before
+  attr_accessor	:controller, :fullscreen_context, :active, :before
 
 	def awakeFromNib
-		@stay_in_fullscreen_mode	= false
+		@active	= false
 	end
 
 	def go_fullscreen
@@ -38,25 +38,17 @@ class Fullscreen
 		# Create the FullScreen NSOpenGLContext with the attributes listed above :
 		pixel_format		= NSOpenGLPixelFormat.alloc.initWithAttributes(attributes)
 
-		# Just as a diagnostic, report the renderer ID that this pixel format binds to.
-		# CGLRenderers.h contains a list of known renderers and their corresponding RendererID codes.
-		renderer_id			= Pointer.new_with_type('i')
-		pixel_format.getValues(renderer_id, forAttribute:NSOpenGLPFARendererID, forVirtualScreen:0)
-		puts "NSOpenGLView pixelFormat RendererID = %08x" % renderer_id[0]
 
 		# Create an NSOpenGLContext with the FullScreen pixel format.
 		# By specifying the non-FullScreen context as our "shareContext", we automatically inherit...
 		# ... all of the textures, display lists, and other OpenGL objects it has defined.
 		@fullscreen_context	= NSOpenGLContext.alloc.initWithFormat(pixel_format,
-                                                              shareContext:@controller.opengl_view.openGLContext)
+      shareContext:@controller.view.openGLContext)
 
     puts "Failed to create fullScreenContext" if @fullscreen_context.nil?
+    #@controller.game_loop.stop_timer
 
-		# Pause animation in the OpenGL view.  While we're in full-screen mode, we'll have to...
-		# ... drive the animation actively instead of using a timer callback.
-		@controller.stop_animation_timer if @controller.animating
-
-		# From here, we have to be carefull not to lock ourselves in fullscreen mode
+		# From here, we have to be careful not to lock ourselves in fullscreen mode
 		begin
 			# --- SET UP AFTER THE MAIN DISPLAY WAS CAPTURED : --- 
 			# Take control of the main display where we're about to go fullscreen
@@ -84,62 +76,45 @@ class Fullscreen
 			w					= CGDisplayPixelsWide(main_display_id)
 			h					= CGDisplayPixelsHigh(main_display_id)
 
-			@controller.scene.set_viewport_rectangle(NSMakeRect(0, 0, w, h))
+			@controller.game_loop.set_viewport_rectangle(NSMakeRect(0, 0, w, h))
 			# --- EVENT LOOP : ---
 
-			# We are now in fullscreen mode. In this new context, we don't have an event loop like ...
-			# ... the NSOpenGLView provided, so we have to make our own :
-			fullscreen_loop
+			# We are now in fullscreen mode. In this new context, we don't have an event loop like
+			# the NSOpenGLView provided, so we have to make our own :
 
 			# --- LEAVING AND CLEANING UP : ---
 			# Properly leaving fullscreen mode :
-			exit_fullscreen
 
 		rescue
 			puts "There was a problem while in fullscreen mode !"
 		end
+    fullscreen_loop
 	end
 
 	def fullscreen_loop
-			# A flag for wether we have to keep looping or not :
-			@stay_in_fullscreen_mode	= true
+    # A flag for wether we have to keep looping or not :
+    @active = true
 
-			# Used to keep track of each loop iteration's duration :
-      @before = CFAbsoluteTimeGetCurrent()
-			now     = 0
+    while @active do
+      while (event = get_event) do
+        case event.type
+        when NSLeftMouseDown
+          @controller.mouseDown(event)
+        when NSLeftMouseUp
+          @controller.mouseUp(event)
+        when NSLeftMouseDragged
+          @controller.mouseDragged(event)
+        when NSKeyDown
+          @controller.keyDown(event)
+        end
+      end
+      event = nil
+      # Update our animation:
+			#@controller.game_loop.tick(1/60.0)
 
-			while @stay_in_fullscreen_mode do
-				while (event = get_event) do
-					case event.type
-					when NSLeftMouseDown
-						@controller.mouseDown(event)
-
-					when NSLeftMouseUp
-						@controller.mouseUp(event)
-
-					when NSLeftMouseDragged
-						@controller.mouseDragged(event)
-
-					when NSKeyDown
-						@controller.keyDown(event)
-					end
-				end
-				event = nil
-
-				# Update our animation:
-				now			= CFAbsoluteTimeGetCurrent()
-				@controller.scene.advance_time_by(now - @before) if @controller.animating
-				@before = now
-
-				# Render a frame:
-				draw_rect
-
-				# Quick note : at first glance, it looks like this loop will try to redraw frames
-				# without any proper timing, so much to often. But remember vbl syncronization
-				# is enabled, so each call to draw_rect and therefore to flushBuffer introduces
-				# a "natural" delay , ensuring that we don't refresh faster than the screen's
-				# refresh rate.
-			end
+      # Render a frame:
+      draw_rect
+    end
 	end
 
 	def exit_fullscreen
@@ -153,12 +128,7 @@ class Fullscreen
 		# Release control of the display :
 		CGReleaseAllDisplays()
 
-		# Mark our view as needing drawing.
-    # (The animation has advanced while we were in FullScreen mode, so its current contents are stale.)
-		@controller.opengl_view.setNeedsDisplay(true)
-
-		# Resume animation timer firings :
-		@controller.start_animation_timer if @controller.animating
+		@controller.view.setNeedsDisplay(true)
 	end
 
 	def get_event
@@ -168,7 +138,6 @@ class Fullscreen
 	end
 
 	def draw_rect
-		@controller.scene.render
 		@fullscreen_context.flushBuffer
 	end
 end
