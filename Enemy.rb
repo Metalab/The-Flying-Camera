@@ -28,9 +28,9 @@ class Enemy
     glPushMatrix
     place
     move
-    self.draw
     colour
     Plane.draw
+    self.draw
 
     glPopMatrix
   end
@@ -75,12 +75,12 @@ class Enemy
   def raf(x, y, z)
     glPushMatrix
     glTranslatef(x, y, z)
-    glColor3f(0.8, 0.06, 0.14)
-    circle(0.002)
-    glColor3f(1, 1, 1)
-    circle(0.006)
     glColor3f(0,	0.13,	0.48)
     circle(0.009)
+    glColor3f(1, 1, 1)
+    circle(0.006)
+    glColor3f(0.8, 0.06, 0.14)
+    circle(0.002)
     glPopMatrix
   end
 

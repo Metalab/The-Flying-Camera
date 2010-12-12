@@ -27,7 +27,7 @@ class GameView < NSOpenGLView
 	end
 
 	def prepareOpenGL
-		glEnable(GL_DEPTH_TEST)
+#		glEnable(GL_DEPTH_TEST)
 		glEnable(GL_CULL_FACE)
 		glEnable(GL_MULTISAMPLE)
 		glAlphaFunc ( GL_GREATER, 0.1 )
@@ -40,8 +40,9 @@ class GameView < NSOpenGLView
 	end
 
 	def drawRect(rect)
-  		openGLContext.flushBuffer
-      setNeedsDisplay true if @active
+    return unless @active
+#    setNeedsDisplay true
+#		openGLContext.flushBuffer
 	end
 
 	def reshape

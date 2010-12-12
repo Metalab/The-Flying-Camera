@@ -9,8 +9,10 @@
 class Scene
   def redraw(tick)
     r = rand / 10.0
-    glClearColor(r,r,r,0)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+    glClearColor(r,r,r,0)
+
+    glColor3f(1, 1, 1)
     glBegin(GL_LINE_STRIP)
       glVertex3f( -0.9,  -0.7, 0.0); 
       glVertex3f( 0.9,  -0.7, 0.0); 

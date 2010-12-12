@@ -82,11 +82,9 @@ class Fullscreen
 			# We are now in fullscreen mode. In this new context, we don't have an event loop like
 			# the NSOpenGLView provided, so we have to make our own :
 
-			# --- LEAVING AND CLEANING UP : ---
-			# Properly leaving fullscreen mode :
-
 		rescue
 			puts "There was a problem while in fullscreen mode !"
+      exit_fullscreen
 		end
     fullscreen_loop
 	end
@@ -109,8 +107,6 @@ class Fullscreen
         end
       end
       event = nil
-      # Update our animation:
-			#@controller.game_loop.tick(1/60.0)
 
       # Render a frame:
       draw_rect
@@ -139,6 +135,7 @@ class Fullscreen
 
 	def draw_rect
 		@fullscreen_context.flushBuffer
+# 		@fullscreen_context.setNeedsDisplay(true)
 	end
 end
 

@@ -31,7 +31,10 @@ class GameLoop
 
   def timer_fired(timer)
     tick(1/60.0)
-    view.setNeedsDisplay(true) if view.active
+    if view.active
+      view.openGLContext.flushBuffer
+      view.setNeedsDisplay true
+    end
   end
 
   def tick(seconds)

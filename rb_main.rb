@@ -3,12 +3,13 @@
 # CtF
 #
 # Created by Thomas R. Koll on 09.12.10.
-# Copyright __MyCompanyName__ 2010. All rights reserved.
+# Copyright ananasblau 2010. All rights reserved.
 #
 
 # Loading the Cocoa framework. If you need to load more frameworks, you can
 # do that here too.
 framework 'Cocoa'
+framework 'GLUT'
 
 # Loading all the Ruby project files.
 main = File.basename(__FILE__, File.extname(__FILE__))
