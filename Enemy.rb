@@ -24,8 +24,8 @@ class Enemy
     self.orientation = rand(360)
     self.speed = 2
     self.turns = []
-    self.view_width = 90
-    self.view_angle = [view_width / 2, view_width / 2]
+    self.view_width = 40
+    self.view_angle = [self.orientation + view_width / 2.0, self.orientation - view_width / 2.0]
   end
 
   def redraw(tick)
@@ -107,8 +107,17 @@ class Enemy
     if enemy_to_follow.nil?
       self.turn(rand(self.turns_sum||1) * (rand -0.5))
     else
-      self.turn(0)
-      puts "follow: #{enemy_to_follow.object_id}"
+    a = - [[(self.orientation - enemy_to_follow[1]) / self.view_width.to_f, 0.5].min, -0.5].max
+      self.turn(a)
     end
   end
+
+
+  def turn_with_view(direction)
+    difference = self.turn_without_view(direction)
+    self.view_angle[0] = (self.view_angle[0] + difference) % 360
+    self.view_angle[1] = (self.view_angle[1] + difference) % 360
+  end
+  alias_method :turn_without_view, :turn
+  alias_method :turn, :turn_with_view
 end

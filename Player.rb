@@ -26,7 +26,7 @@ class Player
     self.score = Score.new(-0.95, -0.95, 0)
 
     self.view_width = 70
-    self.view_angle = [90 + view_width / 2, 90 - view_width / 2]
+    self.view_angle = [self.orientation + 90 + view_width / 2, self.orientation + 90 - view_width / 2]
   end
 
   def redraw(tick)

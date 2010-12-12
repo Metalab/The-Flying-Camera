@@ -26,10 +26,8 @@ module Visibility
 
       n = view_angle[0]
       m = view_angle[1]
-      if m < n && gamma > m && gamma < n
-        object
-      elsif m > n && (gamma > m || gamma < n)
-        object
+      if (m < n && gamma > m && gamma < n) || (m > n && (gamma > m || gamma < n))
+        [object, gamma]
       else
         nil
       end
