@@ -7,7 +7,7 @@
 #
 
 class GameView < NSOpenGLView
-	attr_accessor :controller
+	attr_accessor :controller, :active
 
 	def initWithFrame(frame)
 		attributes		= Pointer.new_with_type('I', 8)
@@ -22,7 +22,7 @@ class GameView < NSOpenGLView
 
 		pixel_format	= NSOpenGLPixelFormat.alloc.initWithAttributes(attributes)
 		initWithFrame(frame, pixelFormat:pixel_format)
-		
+		@active = true
 		return self
 	end
 
@@ -40,7 +40,12 @@ class GameView < NSOpenGLView
 	end
 
 	def drawRect(rect)
-		openGLContext.flushBuffer
+  		openGLContext.flushBuffer
+      setNeedsDisplay true if @active
+	end
+
+	def reshape
+		@controller.game_loop.set_viewport_rectangle(bounds)
 	end
 
 	def keyDown(event)

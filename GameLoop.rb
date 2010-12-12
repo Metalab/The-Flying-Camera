@@ -31,7 +31,7 @@ class GameLoop
 
   def timer_fired(timer)
     tick(1/60.0)
-    view.setNeedsDisplay true
+    view.setNeedsDisplay(true) if view.active
   end
 
   def tick(seconds)
@@ -42,4 +42,25 @@ class GameLoop
     elements.map{|e| e.redraw(seconds)}
     player.make_picture(elements)
   end
+
+	def stop_timer
+		if @timer != nil then
+			@timer.invalidate
+			@timer = nil
+		end
+	end
+  
+  
+	def set_viewport_rectangle(bounds)
+return
+		glViewport(bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height)
+
+		glMatrixMode(GL_PROJECTION)
+		glLoadIdentity
+		gluPerspective(30, bounds.size.width / bounds.size.height, 1.0, 1000.0)
+
+		glMatrixMode(GL_MODELVIEW)
+		glLoadIdentity
+
+	end
 end
