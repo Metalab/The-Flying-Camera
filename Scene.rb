@@ -20,6 +20,5 @@ class Scene
       glVertex3f( -0.9,  0.9, 0.0); 
       glVertex3f( -0.9,  -0.7, 0.0); 
     glEnd
-
   end
 end

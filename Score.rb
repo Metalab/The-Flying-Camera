@@ -39,7 +39,7 @@ class Score
       glPopMatrix
     end
   end
-  
+
   def +(score)
     self.score += score
     self

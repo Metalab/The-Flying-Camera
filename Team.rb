@@ -8,7 +8,7 @@
 require 'team'
 class Team
   attr_accessor :planes, :name, :colour
-  
+
   def initialize(name, colour = [0,0,0], number_of_planes = 0)
     self.name = name
     self.colour = colour

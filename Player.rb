@@ -5,8 +5,6 @@
 #  Created by Thomas R. Koll on 09.12.10.
 #  Copyright (c) 2010 ananasblau. All rights reserved.
 #
-#require 'placable'
-#require 'movable'
 require 'visibility'
 
 class Player
@@ -14,8 +12,7 @@ class Player
   include Movable
   include Visibility
 
-  attr_accessor :view_angle,
-    :score, :score_history
+  attr_accessor :view_angle, :score, :score_history
 
   def initialize
     self.orientation = 0
@@ -98,5 +95,4 @@ class Player
     self.score + score_delta
     score_history.map{|k, history| history.unshift(0); }
   end
-  
 end

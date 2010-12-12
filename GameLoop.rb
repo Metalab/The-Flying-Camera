@@ -7,8 +7,7 @@
 #
 
 class GameLoop
-  attr_accessor :view
-  attr_accessor :timer, :player, :elements, :scene, :teams, :stop
+  attr_accessor :view, :timer, :player, :elements, :scene, :teams, :stop
 
   def initialize(view)
     self.view = view
@@ -59,16 +58,10 @@ class GameLoop
   
 	def set_viewport_rectangle(bounds)
   return
-  puts bounds.inspect
-
-		glViewport(bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height)
+  	glViewport(bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height)
 
 		glMatrixMode(GL_PROJECTION)
 		glLoadIdentity
 		gluPerspective(30, bounds.size.width / bounds.size.height, 1.0, 1000.0)
-
-#		glMatrixMode(GL_MODELVIEW)
-#		glLoadIdentity
-
 	end
 end

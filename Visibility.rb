@@ -19,9 +19,8 @@ module Visibility
       # nur im Rückschritt liegt die Zukunft
       a = self.x - object.x
       b = self.y - object.y
-      
-      gamma = Math.atan2(b,a)
 
+      gamma = Math.atan2(b,a)
       gamma = ((gamma / Math::PI * 180) + 180) % 360
 
       n = view_angle[0]
