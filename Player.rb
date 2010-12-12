@@ -22,21 +22,21 @@ class Player
     self.speed = 2
     self.turns = []
     self.position (0,0,0)
-    self.score = 0
     self.score_history = {}
+    self.score = Score.new(-0.95, -0.95, 0)
 
     self.view_width = 70
     self.view_angle = [90 + view_width / 2, 90 - view_width / 2]
   end
 
   def redraw(tick)
+    self.score.draw
     glPushMatrix
       glColor3f(0.7,0.7,0.7)
       place
       move
       Plane.draw
       draw_camera
-
     glPopMatrix
   end
 
@@ -85,12 +85,11 @@ class Player
   # count planes in view
   def make_picture(planes)
     score_history.map{|k, history| score_history[k] = history[0..20] }
-
     # TODO set planes that are not in view to []
     objects_in_view(planes).each do |hit|
       score_history[hit.object_id] ||= []
       score_history[hit.object_id].unshift(1)
-      self.score += score_history[hit.object_id].inject {|sum, i| sum + i}
+      self.score + score_history[hit.object_id].inject {|sum, i| sum + i}
     end
     score_history.map{|k, history| history.unshift(0); }
     puts score

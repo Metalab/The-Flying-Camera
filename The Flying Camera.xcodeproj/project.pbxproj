@@ -48,6 +48,7 @@
 		0E319B1312B3D2AC00D0E514 /* Fullscreen.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0E319B1212B3D2AC00D0E514 /* Fullscreen.rb */; };
 		0EB704E312B39CC2006FF01B /* Visibility.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0EB704E212B39CC2006FF01B /* Visibility.rb */; };
 		0EB706C812B3B10C006FF01B /* README in Resources */ = {isa = PBXBuildFile; fileRef = 0EB706C712B3B10C006FF01B /* README */; };
+		0ED0536812B535330095EAC6 /* Score.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0ED0536712B535330095EAC6 /* Score.rb */; };
 		0ED8FB4212B24A0700296022 /* Movable.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0ED8FB4112B24A0700296022 /* Movable.rb */; };
 		0ED8FB9612B24C6100296022 /* Plane.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0ED8FB9512B24C6100296022 /* Plane.rb */; };
 		0ED8FBAD12B24FAF00296022 /* Enemy.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0ED8FBAC12B24FAF00296022 /* Enemy.rb */; };
@@ -85,6 +86,7 @@
 		0E319B1212B3D2AC00D0E514 /* Fullscreen.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = Fullscreen.rb; sourceTree = "<group>"; };
 		0EB704E212B39CC2006FF01B /* Visibility.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = Visibility.rb; sourceTree = "<group>"; };
 		0EB706C712B3B10C006FF01B /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		0ED0536712B535330095EAC6 /* Score.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = Score.rb; sourceTree = "<group>"; };
 		0ED8FB4112B24A0700296022 /* Movable.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = Movable.rb; sourceTree = "<group>"; };
 		0ED8FB9512B24C6100296022 /* Plane.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = Plane.rb; sourceTree = "<group>"; };
 		0ED8FBAC12B24FAF00296022 /* Enemy.rb */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.ruby; path = Enemy.rb; sourceTree = "<group>"; };
@@ -145,6 +147,7 @@
 				0EF05DAE12B173C0009C18E8 /* Player.rb */,
 				0ED8FBAC12B24FAF00296022 /* Enemy.rb */,
 				0E2BDBC012B267D400D634EE /* Team.rb */,
+				0ED0536712B535330095EAC6 /* Score.rb */,
 			);
 			name = game_items;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				0EB704E312B39CC2006FF01B /* Visibility.rb in Resources */,
 				0EB706C812B3B10C006FF01B /* README in Resources */,
 				0E319B1312B3D2AC00D0E514 /* Fullscreen.rb in Resources */,
+				0ED0536812B535330095EAC6 /* Score.rb in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
