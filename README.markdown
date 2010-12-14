@@ -1,7 +1,7 @@
 The Flying Camera
 =================
 
-It's 1929 and Howard Houghes is making his movie about the Great War: Hell's Angels.
+It's 1929 and Howard Hughes is making his movie about the Great War: Hell's Angels.
 You are assigned to one of the planes equipped with a camera and your mission
 is to film the planes around you as they simulate their dogfights.
 Capture as many scenes with planes in action as you can to score,
@@ -28,6 +28,6 @@ Thanks
 
 Any many thanks to [metalab][1] where this game was created during the "Black&White" Super Gamedev Weekend in December 2010. In this competition we not only won the category "Theme" but also took home the grand price.
 
-![](https://github.com/Metalab/The-Flying-Camera/master/The%20Flyinging%20Camera.png)
+![](https://github.com/Metalab/The-Flying-Camera/raw/master/The%20Flying%20Camera.png)
 
   [1]: http://metalab.at
