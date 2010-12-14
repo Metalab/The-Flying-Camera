@@ -25,9 +25,11 @@ Thanks
 
 * nex for his insane math skills
 * meta for some OpenGL help
+* [Julien Jassaud][2] who converted a few OpenGL examples to Macruby
 
 Any many thanks to [metalab][1] where this game was created during the "Black&White" Super Gamedev Weekend in December 2010. In this competition we not only won the category "Theme" but also took home the grand price.
 
 ![](https://github.com/Metalab/The-Flying-Camera/raw/master/The%20Flying%20Camera.png)
 
   [1]: http://metalab.at
+  [2]: https://github.com/sojastar/Some-MacRuby-sample-code
