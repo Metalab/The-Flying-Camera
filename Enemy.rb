@@ -39,7 +39,7 @@ class Enemy
     glPopMatrix
     self.shots = self.shots.map(&:redraw).compact
   end
-  
+
   def colour
    glColor3f(*self.team.colour)
   end
@@ -55,6 +55,7 @@ class Enemy
       raf(-0.005, -0.05, 0)
     end
   end
+
   def iron_cross(x,y,z)
     glPushMatrix
     glTranslatef(x, y, z)
@@ -117,7 +118,6 @@ class Enemy
       self.turn(a)
     end
   end
-
 
   def turn_with_view(direction)
     difference = self.turn_without_view(direction)
