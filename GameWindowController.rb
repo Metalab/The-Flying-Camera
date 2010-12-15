@@ -12,7 +12,7 @@ class GameWindowController < NSWindowController
 	attr_accessor :view, :game_loop, :fullscreen
 
 	def awakeFromNib
-    NSSound.soundNamed('Ping').play
+    # NSSound.soundNamed('Ping').play
 		self.game_loop = GameLoop.new(self.view)
 	end
 
