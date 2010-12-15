@@ -26,7 +26,7 @@ module Visibility
       n = view_angle[0]
       m = view_angle[1]
       if (m < n && gamma > m && gamma < n) || (m > n && (gamma > m || gamma < n))
-        [object, gamma]
+        [object, gamma, Math.sqrt(a**2 + b**2)]
       else
         nil
       end

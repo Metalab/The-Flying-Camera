@@ -17,8 +17,9 @@ class Shot
     self.x = x
     self.y = y
     self.z = 0
-    self.speed = 10
+    self.speed = 20
     self.orientation = orientation
+    NSSound.soundNamed('Ping').play
   end
   
   def redraw

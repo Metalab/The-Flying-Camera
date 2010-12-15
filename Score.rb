@@ -15,18 +15,18 @@ class Score
     self.z = z
     self.score = 0
     self.point_size = 0.03
-    self.binary = false
+    self.binary = true
   end
 
   def draw
     (self.binary ?
-          (self.score/16).to_s(2).split('').reverse :
-          self.score.to_s.split('').reverse)
+          (self.score.to_i/16).to_s(2).split('').reverse :
+          self.score.to_i.to_s.split('').reverse)
     .each_with_index do |p, i|
       glPushMatrix
       c = self.binary ? (p == "1" ? 0.8 : 0.2) : p.to_f/10.0
       glColor3f(c, c, c)
-      glTranslatef(self.x + i * point_size + point_size / 4, self.y, i*0.1)
+      glTranslatef(self.x + (i * point_size) + (point_size / 4.0), self.y, 0)
 
       glBegin(GL_QUADS)
         glVertex3f( 0.0,   0.0, 0.0); 

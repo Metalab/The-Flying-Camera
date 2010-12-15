@@ -27,7 +27,6 @@ class Player
   end
 
   def redraw(tick)
-    self.score.draw
     glPushMatrix
       glColor3f(0.7,0.7,0.7)
       place
@@ -87,9 +86,10 @@ class Player
     score_history.map{|k, history| score_history[k] = history[0..40] }
     # TODO set planes that are not in view to []
     planes_scored = objects_in_view(planes).each do |hit|
-      score_history[hit.object_id] ||= []
-      score_history[hit.object_id].unshift(1)
-      score_delta += score_history[hit.object_id].inject {|sum, i| sum + i}
+      score_history[hit.first.object_id] ||= []
+      score_history[hit.first.object_id].unshift(1)
+      score_delta += score_history[hit.first.object_id].inject {|sum, i| sum + i}
+      score_delta += 100 if hit.first.shooting
     end
     score_delta *= planes_scored.size
     self.score + score_delta

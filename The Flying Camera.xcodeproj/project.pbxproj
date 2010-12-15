@@ -47,6 +47,9 @@
 		0E2BDC1012B26E8B00D634EE /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E2BDC0F12B26E8B00D634EE /* GLUT.framework */; };
 		0E319B1312B3D2AC00D0E514 /* Fullscreen.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0E319B1212B3D2AC00D0E514 /* Fullscreen.rb */; };
 		0E8DA2D712B8F40D00E6C4D2 /* README.markdown in Resources */ = {isa = PBXBuildFile; fileRef = 0E8DA2D612B8F40D00E6C4D2 /* README.markdown */; };
+		0E9A96AE12B633C200878834 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
+		0E9A96AF12B633C600878834 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 13E42FB307B3F0F600E4EEF1 /* CoreData.framework */; };
+		0E9A96B012B633C700878834 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97324FDCFA39411CA2CEA /* AppKit.framework */; };
 		0EB704E312B39CC2006FF01B /* Visibility.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0EB704E212B39CC2006FF01B /* Visibility.rb */; };
 		0ED0536812B535330095EAC6 /* Score.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0ED0536712B535330095EAC6 /* Score.rb */; };
 		0ED4F78D12B557E60064E48A /* Shot.rb in Resources */ = {isa = PBXBuildFile; fileRef = 0ED4F78C12B557E60064E48A /* Shot.rb */; };
@@ -122,6 +125,9 @@
 				4DE3BE140D8651D900ECA448 /* MacRuby.framework in Frameworks */,
 				0EF05CD612B14B2A009C18E8 /* OpenGL.framework in Frameworks */,
 				0E2BDC1012B26E8B00D634EE /* GLUT.framework in Frameworks */,
+				0E9A96AE12B633C200878834 /* Foundation.framework in Frameworks */,
+				0E9A96AF12B633C600878834 /* CoreData.framework in Frameworks */,
+				0E9A96B012B633C700878834 /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

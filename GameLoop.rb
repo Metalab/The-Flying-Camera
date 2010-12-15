@@ -8,19 +8,20 @@
 
 class GameLoop
   attr_accessor :view
-  attr_accessor :timer, :player, :elements, :scene, :teams, :stop, :shots
+  attr_accessor :timer, :player, :elements, :scene, :teams, :stop, :shots, :total_time
 
   def initialize(view)
     self.view = view
     self.scene = Scene.new
     self.teams = [
-      Team.new('Kaiserliche Fliegertruppe', [0.8, 0.8, 0.8], 2),
-      Team.new('Royal Flying Corps', [0.6, 0.62, 0.6], 2)
+      Team.new('Kaiserliche Fliegertruppe', [0.8, 0.8, 0.8], 3),
+      Team.new('Royal Flying Corps', [0.6, 0.62, 0.6], 3)
     ]
     self.elements ||= self.teams.collect(&:planes).flatten
 
     self.player = Player.new
     start_timer
+    self.total_time = Score.new(-0.95, -0.8, 0)
   end
 
   def start_timer
@@ -38,8 +39,13 @@ class GameLoop
   end
 
   def tick(seconds)
-    return if self.stop
     scene.redraw(seconds)
+    self.total_time.draw
+    self.player.score.draw
+    return if self.stop
+
+    self.total_time += seconds
+    
 
     player.redraw(seconds)
     elements.map do |e|
@@ -55,6 +61,10 @@ class GameLoop
 			@timer = nil
 		end
 	end
+  
+  def draw_time
+  
+  end
   
   
 	def set_viewport_rectangle(bounds)

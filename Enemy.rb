@@ -15,7 +15,7 @@ class Enemy
   include Visibility
 
   
-  attr_accessor :team, :view_angle, :shots
+  attr_accessor :team, :view_angle, :shots, :shots_remaining, :shooting
 
   def initialize(team)
     self.team = team
@@ -25,6 +25,7 @@ class Enemy
     self.speed = 2
     self.turns = []
     self.shots = []
+    self.shots_remaining = 0
     self.view_width = 40
     self.view_angle = [self.orientation + view_width / 2.0, self.orientation - view_width / 2.0]
   end
@@ -38,6 +39,7 @@ class Enemy
     self.draw
     glPopMatrix
     self.shots = self.shots.map(&:redraw).compact
+    self.shots_remaining = [self.shots_remaining + 1, 10].min
   end
 
   def colour
@@ -106,16 +108,29 @@ class Enemy
   def find_target(enemies)
     self.speedUp(rand * 2 - 1)
     # right
-    enemy_to_follow = self.objects_in_view(enemies).first
+    enemy_to_follow = nil
+    self.objects_in_view(enemies).each do |e|
+      if enemy_to_follow.nil?
+        enemy_to_follow = e
+      else
+        enemy_to_follow = e if e[2] < enemy_to_follow[2]
+      end
+    end
     if enemy_to_follow.nil?
       self.turn(rand(self.turns_sum||1) * (rand - 0.5))
     else
-      if self.shots.size < 20
-        puts enemy_to_follow[1]
-        self.shots << Shot.new(self.x, self.y, (self.orientation - enemy_to_follow[1]) % 360)
-      end
-      a = - [[(self.orientation - enemy_to_follow[1]) / self.view_width.to_f, 0.5].min, -0.5].max
+      a = - [[(self.orientation - enemy_to_follow[1]) / self.view_width.to_f, 0.2].min, -0.2].max
       self.turn(a)
+      if (self.shots_remaining % 5 == 0)
+        if self.shots_remaining > 1 && (self.orientation - enemy_to_follow[1] < 10) &&
+              enemy_to_follow[2] < 0.4
+          self.shots_remaining -= 8
+          self.shots << Shot.new(self.x, self.y, enemy_to_follow[1] % 360)
+          self.shooting = true
+        else
+          self.shooting = false
+        end
+      end
     end
   end
 

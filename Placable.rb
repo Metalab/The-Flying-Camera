@@ -21,6 +21,9 @@ module Placable
 
   def place
     # Endless screen
+    if x > 1 || x < -1 || y > 1 || y < -1
+      #self.orientation += rand(90) - 90
+    end
     self.x = -1 if x > 1
     self.y = -1 if y > 1
     self.x = 1 if x < -1
